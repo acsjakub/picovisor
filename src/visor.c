@@ -51,7 +51,7 @@ int main(void) {
         .dev_init = printer_init
   };
 
-  vm_add_device(&vm, &printer_dev);
+  vm_add_device(&vm, &printer_dev, 0x4000, 0x1000);
 
   if (vm_create_vcpu(&vm) < 0) {
       return -1;

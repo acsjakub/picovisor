@@ -1,3 +1,4 @@
+#include <linux/kvm.h>
 #include <vm.h>
 
 #include <stdio.h>
@@ -7,14 +8,16 @@
 #include <sys/mman.h>
 
 int vm_add_device(struct VM* vm,
-                  struct device* dev)
+                  struct device* dev,
+                  unsigned long long mr_addr,
+                  size_t mr_size)
 {
     // call device's init function?
     // which will add memory regions and the handlers?
     //
     // TODO check if allocation successful
     struct mem_region *mmio = malloc(sizeof(struct mem_region));
-    if (mr_new_private(mmio, KVM_MEM_READONLY, 0x4000, 0x1000) < 0) {
+    if (mr_new_private(mmio, KVM_MEM_READONLY, mr_addr, mr_size) < 0) {
         printf("Failed to create MMIO region\n");
         return -1;
     }
@@ -23,6 +26,7 @@ int vm_add_device(struct VM* vm,
         printf("Failed to add MMIO region\n");
         return -1;
     }
+    printf("Total Mem regions: %d\n", vm->nr_mem_regions);
 
     if (dev->dev_init(mmio) < 0) {
         printf("Failed to init device\n");

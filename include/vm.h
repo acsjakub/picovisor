@@ -17,7 +17,7 @@ struct VM {
 };
 
 int vm_add_memory_region(struct VM*, struct mem_region*, int);
-int vm_add_device(struct VM*, struct device*);
+int vm_add_device(struct VM*, struct device*, unsigned long long, size_t);
 int vm_create(struct VM*, int, size_t);
 int vm_create_vcpu(struct VM*);
 int vm_load_guest_program(struct VM*, char *, size_t);
