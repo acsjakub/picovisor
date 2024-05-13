@@ -7,6 +7,7 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
+#include <counter.h>
 #include <printer.h>
 #include <vm.h>
 #include <vcpu.h>
@@ -52,6 +53,14 @@ int main(void) {
   };
 
   vm_add_device(&vm, &printer_dev, 0x4000, 0x1000);
+
+  struct device counter_dev = {
+        .name = "COUNTER",
+        .dev_init = counter_init
+  };
+
+  vm_add_device(&vm, &counter_dev, 0x5000, 0x1000);
+
 
   if (vm_create_vcpu(&vm) < 0) {
       return -1;

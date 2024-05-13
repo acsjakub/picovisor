@@ -6,7 +6,7 @@ make
 
 assemble guest
 ```
-nasm test/guest.S -o guest
+nasm test/hello_guest.S -o guest
 ```
 
 run (for now, this reads guest code from hardcoded location: `guest` in `$PWD`)
